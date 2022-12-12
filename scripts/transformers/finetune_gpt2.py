@@ -1,7 +1,7 @@
 from typing import Tuple
 from transformers import (
     GPT2LMHeadModel,
-    TFGPT2Tokenizer,
+    GPT2TokenizerFast,
     Trainer,
     TrainingArguments,
     default_data_collator,
@@ -19,7 +19,7 @@ from neural_chat.craigslist import Craigslist
 
 class DialogDataset(Dataset):
     def __init__(
-        self, cg: Craigslist, tokenizer: TFGPT2Tokenizer, block_size: int = 512
+        self, cg: Craigslist, tokenizer: GPT2TokenizerFast, block_size: int = 256
     ):
         # get dialog
         data = []
@@ -42,7 +42,7 @@ class DialogDataset(Dataset):
 
 
 def make_craigslist_dataset(
-    tokenizer: TFGPT2Tokenizer,
+    tokenizer: GPT2TokenizerFast,
     train_fp: str,
     val_fp: str,
 ) -> Tuple[DialogDataset, DialogDataset]:
@@ -70,7 +70,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # make tokenizer
-    token = TFGPT2Tokenizer.from_pretrained(args.gpt2_type)
+    token = GPT2TokenizerFast.from_pretrained(args.gpt2_type)
     token.add_tokens(["$PRICE", "$PARTNER_PRICE", "<sep>"])
 
     # make dataset
@@ -91,13 +91,13 @@ if __name__ == "__main__":
         no_cuda=False,
         num_train_epochs=5,
         save_steps=5000,
-        warmup_steps=50,
+        warmup_steps=100,
         dataloader_drop_last=True,
     )
     trainer = Trainer(
         model,
         train_args,
-        train_dataset=train_dataset,
+        train_dataset=train_dataset[:20000],
         tokenizer=token,
         data_collator=default_data_collator,
     )
