@@ -1,7 +1,7 @@
 from typing import Tuple
 from transformers import (
     GPT2LMHeadModel,
-    GPT2TokenizerFast,
+    TFGPT2Tokenizer,
     Trainer,
     TrainingArguments,
     default_data_collator,
@@ -19,7 +19,7 @@ from neural_chat.craigslist import Craigslist
 
 class DialogDataset(Dataset):
     def __init__(
-        self, cg: Craigslist, tokenizer: GPT2TokenizerFast, block_size: int = 128
+        self, cg: Craigslist, tokenizer: TFGPT2Tokenizer, block_size: int = 128
     ):
         # get dialog
         data = []
@@ -42,7 +42,7 @@ class DialogDataset(Dataset):
 
 
 def make_craigslist_dataset(
-    tokenizer: GPT2TokenizerFast,
+    tokenizer: TFGPT2Tokenizer,
     train_fp: str,
     val_fp: str,
 ) -> Tuple[DialogDataset, DialogDataset]:
@@ -70,7 +70,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # make tokenizer
-    token = GPT2TokenizerFast.from_pretrained(args.gpt2_type)
+    token = TFGPT2Tokenizer.from_pretrained(args.gpt2_type)
     token.add_tokens(["$PRICE", "$PARTNER_PRICE", "<sep>"])
 
     # make dataset
