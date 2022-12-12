@@ -19,7 +19,7 @@ from neural_chat.craigslist import Craigslist
 
 class DialogDataset(Dataset):
     def __init__(
-        self, cg: Craigslist, tokenizer: TFGPT2Tokenizer, block_size: int = 64
+        self, cg: Craigslist, tokenizer: TFGPT2Tokenizer, block_size: int = 512
     ):
         # get dialog
         data = []
@@ -90,7 +90,7 @@ if __name__ == "__main__":
         fp16=args.fp16,
         no_cuda=False,
         num_train_epochs=5,
-        save_steps=100,
+        save_steps=1000,
         warmup_steps=50,
         dataloader_drop_last=True,
     )
