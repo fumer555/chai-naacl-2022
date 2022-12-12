@@ -81,7 +81,11 @@ if __name__ == "__main__":
     # initialize model
     model = GPT2LMHeadModel.from_pretrained(args.gpt2_type)
     model.resize_token_embeddings(len(token))
-
+    
+    print('###################################check below#################################')
+    print(type(dataset))
+    print('###################################check above#################################')
+    
     # finetune
     train_args = TrainingArguments(
         output_dir=args.output_dir,
@@ -97,7 +101,7 @@ if __name__ == "__main__":
     trainer = Trainer(
         model,
         train_args,
-        train_dataset=train_dataset[:20000],
+        train_dataset=train_dataset,
         tokenizer=token,
         data_collator=default_data_collator,
     )
