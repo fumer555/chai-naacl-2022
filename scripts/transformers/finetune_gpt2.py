@@ -50,6 +50,11 @@ def make_craigslist_dataset(
     cg_train = Craigslist(train_fp)
     cg_val = Craigslist(val_fp)
 
+    print('###################################check below#################################')
+    print(type(cg_train))
+    print(type(cg_val))
+    print('###################################check above#################################')
+    
     # train and test
     dd = lambda d: DialogDataset(d, tokenizer=tokenizer)
     return dd(cg_train), dd(cg_val)
@@ -82,9 +87,9 @@ if __name__ == "__main__":
     model = GPT2LMHeadModel.from_pretrained(args.gpt2_type)
     model.resize_token_embeddings(len(token))
     
-    print('###################################check below#################################')
-    print(type(dataset))
-    print('###################################check above#################################')
+#     print('###################################check below#################################')
+#     print(type(dataset))
+#     print('###################################check above#################################')
     
     # finetune
     train_args = TrainingArguments(
