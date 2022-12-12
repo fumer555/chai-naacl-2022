@@ -97,7 +97,7 @@ if __name__ == "__main__":
     trainer = Trainer(
         model,
         train_args,
-        train_dataset=train_dataset[:20000],
+        train_dataset=train_dataset,
         tokenizer=token,
         data_collator=default_data_collator,
     )
