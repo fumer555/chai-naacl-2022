@@ -90,14 +90,14 @@ if __name__ == "__main__":
         fp16=args.fp16,
         no_cuda=False,
         num_train_epochs=5,
-        save_steps=1000,
+        save_steps=5000,
         warmup_steps=50,
         dataloader_drop_last=True,
     )
     trainer = Trainer(
         model,
         train_args,
-        train_dataset=train_dataset,
+        train_dataset=train_dataset[:2000],
         tokenizer=token,
         data_collator=default_data_collator,
     )
